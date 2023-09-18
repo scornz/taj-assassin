@@ -9,7 +9,7 @@ import { Game, GameSchema } from './game.schema';
 @Module({
   imports: [
     forwardRef(() => PlayerModule),
-    TargetModule,
+    forwardRef(() => TargetModule),
     MongooseModule.forFeature([{ name: Game.name, schema: GameSchema }]),
   ],
   controllers: [GameController],

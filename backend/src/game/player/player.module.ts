@@ -15,5 +15,6 @@ import { MongooseModule } from '@nestjs/mongoose';
   ],
   controllers: [PlayerController],
   providers: [PlayerService],
+  exports: [PlayerService],
 })
 export class PlayerModule {}
