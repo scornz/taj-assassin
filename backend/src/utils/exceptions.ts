@@ -22,6 +22,18 @@ export class UserNotFoundException extends HttpException {
   }
 }
 
+export class PlayerNotFoundException extends HttpException {
+  constructor(id: MongoId) {
+    super(`Player with ID ${id} could not be found.`, HttpStatus.NOT_FOUND);
+  }
+}
+
+export class TargetNotFoundException extends HttpException {
+  constructor(id: MongoId) {
+    super(`Target with ID ${id} could not be found.`, HttpStatus.NOT_FOUND);
+  }
+}
+
 export class RefreshTokenInvalidException extends HttpException {
   constructor(jti: string) {
     super(
@@ -51,6 +63,24 @@ export class PlayerAlreadyRegisteredException extends HttpException {
     super(
       `User with ID ${userId} is already registered for game with ID ${gameId}.`,
       HttpStatus.CONFLICT,
+    );
+  }
+}
+
+export class PlayerStatusNotValidException extends HttpException {
+  constructor(id: MongoId, status: string) {
+    super(
+      `Player with ID ${id} has an invalid status of ${status} for this action.`,
+      HttpStatus.BAD_REQUEST,
+    );
+  }
+}
+
+export class TargetStatusNotValidException extends HttpException {
+  constructor(id: MongoId, status: string) {
+    super(
+      `Target with ID ${id} has an invalid status of ${status} for this action.`,
+      HttpStatus.BAD_REQUEST,
     );
   }
 }

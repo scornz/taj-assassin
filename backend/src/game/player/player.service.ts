@@ -3,12 +3,13 @@ import { InjectModel } from '@nestjs/mongoose';
 import { GameService } from 'game/game.service';
 import { UserService } from 'user/user.service';
 import { MongoId } from 'utils/mongo';
-import { Player } from './player.schema';
+import { Player, PlayerStatus } from './player.schema';
 import { Model } from 'mongoose';
 import { GameStatus } from 'game/game.schema';
 import {
   GameStatusNotValidException,
   PlayerAlreadyRegisteredException,
+  PlayerNotFoundException,
 } from 'utils/exceptions';
 
 @Injectable()
@@ -43,10 +44,26 @@ export class PlayerService {
     player.save();
   }
 
-  async find(userId: MongoId, gameId: MongoId): Promise<Player | null> {
+  async find(userId: MongoId, gameId: MongoId): Promise<Player> {
     return await this.model
       .find({ gameId: gameId, userId: userId })
       .findOne()
       .exec();
+  }
+
+  async findById(playerId: MongoId): Promise<Player> {
+    const query = await this.model.find({ _id: playerId }).exec();
+    if (!query) {
+      throw new PlayerNotFoundException(playerId);
+    }
+
+    return query[0];
+  }
+
+  async findByGameAndStatus(
+    gameId: MongoId,
+    status: PlayerStatus = PlayerStatus.ALIVE,
+  ): Promise<Player[]> {
+    return await this.model.find({ gameId: gameId, status }).exec();
   }
 }
