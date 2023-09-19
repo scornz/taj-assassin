@@ -26,9 +26,15 @@ import { RecoilRoot } from "recoil";
 import RecoilNexus from "recoil-nexus";
 import Login from "./pages/Login";
 
+import { ChakraProvider } from "@chakra-ui/react";
+
 const router = createBrowserRouter([
   {
-    element: <Outlet />,
+    element: (
+      <ChakraProvider>
+        <Outlet />
+      </ChakraProvider>
+    ),
     children: [
       {
         path: "/app/*",

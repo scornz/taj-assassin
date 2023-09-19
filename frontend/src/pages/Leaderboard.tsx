@@ -1,81 +1,122 @@
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import Avatar from "@mui/material/Avatar";
-import ImageIcon from "@mui/icons-material/Image";
-import WorkIcon from "@mui/icons-material/Work";
-import BeachAccessIcon from "@mui/icons-material/BeachAccess";
-import Divider from "@mui/material/Divider";
-import { Box, Button } from "@mui/material";
 import axios from "axios";
 import { redirect } from "react-router-dom";
 import { authGet } from "../utils/http";
 import { refreshTokens } from "../utils/auth";
+import { LeaderboardPlayerInfo } from "shared/api/game/player";
+
+import { Avatar, Box, Card, HStack, Stack, Text } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+
+let dummyData: LeaderboardPlayerInfo[] = [
+  {
+    playerId: "123abc",
+    name: "John One",
+    kills: 1,
+    alive: true,
+  },
+  {
+    playerId: "456def",
+    name: "Mike Scornavacca",
+    kills: 5,
+    alive: false,
+    killedBy: "Steve Smith",
+  },
+  {
+    playerId: "789hij",
+    name: "Will Two",
+    kills: 4,
+    alive: true,
+  },
+  {
+    playerId: "123klm",
+    name: "Joe Four",
+    kills: 1,
+    alive: true,
+  },
+];
 
 function Leaderboard() {
+  const [data, setData] = useState<LeaderboardPlayerInfo[]>([]);
+
+  useEffect(() => {
+    setData(
+      dummyData.sort((a, b) => {
+        if (a.alive === b.alive) {
+          return b.kills - a.kills;
+        } else {
+          if (a.alive) return -1;
+          return 1;
+        }
+      })
+    );
+  }, []);
+
   return (
-    <Box
-      component="div"
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        height: "100%",
-      }}
-    >
-      <List
-        sx={{
-          width: "100%",
-          maxWidth: 360,
-        }}
-      >
-        <ListItem>
-          <ListItemAvatar>
-            <Avatar>
-              <ImageIcon />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText primary="Photos" secondary="Jan 9, 2014" />
-        </ListItem>
-        <Divider variant="inset" component="li" />
-        <ListItem>
-          <ListItemAvatar>
-            <Avatar>
-              <WorkIcon />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText primary="Work" secondary="Jan 7, 2014" />
-        </ListItem>
-        <Divider variant="inset" component="li" />
-        <ListItem>
-          <ListItemAvatar>
-            <Avatar>
-              <BeachAccessIcon />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText primary="Vacation" secondary="July 20, 2014" />
-        </ListItem>
-      </List>
-      <Button
-        onClick={async () => {
-          console.log("TESTING!");
-          const res = await refreshTokens();
-
-          console.log(res);
-        }}
-      >
-        Hello this is a test
-      </Button>
-
-      <Button
-        onClick={async () => {
-          window.location.href = "http://localhost:6060/auth/google";
-        }}
-      >
-        Hello this is a test 2
-      </Button>
+    <Box m={4}>
+      <Stack alignItems="center" width="100%">
+        <TargetAssignment />
+        <Stack padding={4} alignItems="center" width="100%">
+          {data.map((info, index) => (
+            <LeaderboardItem info={info} ranking={index + 1} />
+          ))}
+        </Stack>
+      </Stack>
     </Box>
+  );
+}
+
+function TargetAssignment() {
+  return (
+    <Card
+      variant="outline"
+      boxShadow={"lg"}
+      width="90%"
+      minWidth="400px"
+      padding={4}
+      backgroundColor="orange.100"
+    >
+      <Box>
+        <Text as="span" fontWeight="bold">
+          Your target:{" "}
+        </Text>
+        <Text as="span"> Testing </Text>
+      </Box>
+    </Card>
+  );
+}
+
+function LeaderboardItem({
+  info,
+  ranking,
+}: {
+  info: LeaderboardPlayerInfo;
+  ranking: number;
+}) {
+  return (
+    <Card
+      variant="outline"
+      boxShadow={"lg"}
+      width="70%"
+      minWidth="400px"
+      key={info.playerId}
+      sx={{ backgroundColor: info.alive ? "white" : "red.200" }}
+    >
+      <HStack padding={4}>
+        <Avatar name={info.name} />
+        <Stack>
+          <Text sx={info.alive ? {} : { textDecorationLine: "line-through" }}>
+            {ranking}: {info.name}
+          </Text>
+          <Box mt="-4">
+            <Text as="span" fontWeight="bold">
+              Kills:
+            </Text>
+            <Text as="span"> {info.kills}</Text>
+          </Box>
+          {!info.alive && <Text>Killed by {info.killedBy}</Text>}
+        </Stack>
+      </HStack>
+    </Card>
   );
 }
 

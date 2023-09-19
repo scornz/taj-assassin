@@ -1,16 +1,5 @@
-import {
-  AppBar,
-  Box,
-  Button,
-  Container,
-  IconButton,
-  Menu,
-  MenuItem,
-  Toolbar,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Text } from "@chakra-ui/react";
 import { Outlet, useNavigate } from "react-router-dom";
-import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
 import { userIDAtom } from "../global/user-state";
 import { useRecoilValue } from "recoil";
 import { useEffect, useState } from "react";
@@ -48,31 +37,19 @@ function Root() {
     <>
       {!loading && (
         <Box sx={{ flexGrow: 1 }}>
-          <AppBar position="static">
-            <Toolbar>
-              <IconButton
-                size="large"
-                edge="start"
-                color="inherit"
-                aria-label="menu"
-                sx={{ mr: 2 }}
-              >
-                <RestaurantMenuIcon />
-              </IconButton>
-              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                TAJ Assassin
-              </Typography>
-              <Button
-                onClick={async () => {
-                  await logout();
-                  navigate("/login");
-                }}
-                color="inherit"
-              >
-                Logout
-              </Button>
-            </Toolbar>
-          </AppBar>
+          <Box
+            width="100%"
+            height="50px"
+            backgroundColor="facebook.200"
+            display={"flex"}
+            flexDir="row"
+            padding="16px"
+            alignItems={"center"}
+            fontWeight={"extrabold"}
+          >
+            <Text fontSize="2xl">TAJ ASSASSIN</Text>
+            <Button marginLeft="auto">Logout</Button>
+          </Box>
           <Outlet />
         </Box>
       )}
