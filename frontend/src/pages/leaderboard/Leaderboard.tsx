@@ -1,5 +1,5 @@
 import axios from "axios";
-import { redirect } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import { LeaderboardPlayerInfo } from "shared/api/game/player";
 
 import {
@@ -18,6 +18,8 @@ import {
 import { useEffect, useState } from "react";
 import Rules from "./Rules";
 import TargetAssignment from "./TargetAssignment";
+import { useRecoilValue } from "recoil";
+import { gameInfoAtom } from "global/user-state";
 
 let dummyData: LeaderboardPlayerInfo[] = [
   {
@@ -45,10 +47,57 @@ let dummyData: LeaderboardPlayerInfo[] = [
     kills: 1,
     alive: true,
   },
+  {
+    playerId: "hswkl372",
+    name: "Foo Bar",
+    kills: 8,
+    alive: false,
+    killedBy: "Will Two",
+  },
+  {
+    playerId: "ndig1974",
+    name: "Tom John",
+    kills: 1,
+    alive: true,
+  },
+  {
+    playerId: "nqiorpw76108",
+    name: "Bob Willy",
+    kills: 4,
+    alive: true,
+  },
+  {
+    playerId: "xbvwk16709",
+    name: "Wow Creative",
+    kills: 2,
+    alive: true,
+  },
+  {
+    playerId: "bsaghd7489",
+    name: "Killer Man",
+    kills: 5,
+    alive: true,
+  },
+  {
+    playerId: "apqocgh73",
+    name: "No Name",
+    kills: 1,
+    alive: true,
+  },
 ];
 
 function Leaderboard() {
   const [data, setData] = useState<LeaderboardPlayerInfo[]>([]);
+  const navigate = useNavigate();
+  const gameInfo = useRecoilValue(gameInfoAtom);
+
+  useEffect(() => {
+    // Only use this is the user ID is not null
+    if (gameInfo === undefined || gameInfo.registered === false) {
+      navigate("/app/register");
+      return;
+    }
+  }, [gameInfo, navigate]);
 
   useEffect(() => {
     setData(

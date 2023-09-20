@@ -16,7 +16,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "rootDir": "/",
+    "rootDir": "./",
     "baseUrl": "./src",
     "isolatedModules": true,
     "noEmit": true,

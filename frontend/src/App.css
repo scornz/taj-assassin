@@ -1,5 +1,5 @@
 html { height:100vh } 
 body { min-height:100vh }
-html, body, #root, #root>div {
+html, body, #root {
   height: 100vh
 }

@@ -5,6 +5,7 @@ import { GameModule } from 'game/game.module';
 import { UserModule } from 'user/user.module';
 import { Player, PlayerSchema } from './player.schema';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { MongooseModule } from '@nestjs/mongoose';
     forwardRef(() => GameModule),
     UserModule,
     MongooseModule.forFeature([{ name: Player.name, schema: PlayerSchema }]),
+    ConfigModule,
   ],
   controllers: [PlayerController],
   providers: [PlayerService],

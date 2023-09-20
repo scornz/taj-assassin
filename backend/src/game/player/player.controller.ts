@@ -3,7 +3,6 @@ import { JwtAuthGuard } from 'auth/guards';
 import { getUserIdFromRequest } from 'utils/request';
 import { PlayerService } from './player.service';
 import { Request } from 'express';
-import { SingleIDQuery } from 'shared/api/queries';
 import { MongoId } from 'utils/mongo';
 import { QueryRequired } from 'utils/decorators';
 
@@ -19,8 +18,6 @@ export class PlayerController {
   ) {
     const userId = getUserIdFromRequest(req);
     const gameId = new MongoId(gameIdQuery);
-    console.log(gameId);
-
     await this.plyr.register(userId, gameId);
     return { msg: 'success' };
   }

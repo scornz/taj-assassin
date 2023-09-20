@@ -22,7 +22,6 @@ export class RefreshTokenService {
     const user = await this.userService.findById(userId);
     const secret = this.config.get<string>('JWT_REFRESH_SECRET');
     const jti = uuid();
-    console.log('yay!');
 
     const jwt = await this.jwtService.signAsync(
       { sub: userId, email: user.email },
@@ -33,16 +32,12 @@ export class RefreshTokenService {
       },
     );
     const decoded: JwtPayload = this.jwtService.decode(jwt) as JwtPayload;
-    console.log(decoded);
 
-    console.log('here!');
     const token = new this.refreshModel();
     token.userId = user.id;
     token.jti = jti;
     token.expires = decoded.exp;
     await token.save();
-
-    console.log('here?');
 
     return { token: jwt, jti: decoded.jti };
   }
@@ -54,7 +49,6 @@ export class RefreshTokenService {
 
     if (token != null) {
       await token.deleteOne();
-      console.log('deleting');
       return true;
     }
 

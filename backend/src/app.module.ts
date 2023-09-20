@@ -22,7 +22,6 @@ import { GameModule } from './game/game.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (config: ConfigService) => {
-        console.log(getConnectUrl(config));
         return {
           uri: getConnectUrl(config), // Loaded from .ENV
         };

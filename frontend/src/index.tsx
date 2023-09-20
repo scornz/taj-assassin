@@ -24,9 +24,10 @@ import "@fontsource/roboto/700.css";
 import GoogleAuthCallback from "./pages/GoogleAuthCallback";
 import { RecoilRoot } from "recoil";
 import RecoilNexus from "recoil-nexus";
-import Login from "./pages/Login";
 
 import { ChakraProvider } from "@chakra-ui/react";
+import Register from "pages/Register";
+import Login from "pages/Login";
 
 const router = createBrowserRouter([
   {
@@ -45,8 +46,12 @@ const router = createBrowserRouter([
             element: <Leaderboard />,
           },
           {
+            path: "register",
+            element: <Register />,
+          },
+          {
             path: "*",
-            element: <Navigate to="/app/leaderboard" />,
+            element: <Navigate to="/app/register" />,
           },
         ],
       },

@@ -34,17 +34,15 @@ export class PlayerService {
     }
 
     // Make sure the player isn't already registered
-    if ((await this.find(userId, gameId)) !== null) {
-      throw new PlayerAlreadyRegisteredException(userId, gameId);
+    if ((await this.find(userId, gameId)) === null) {
+      const player = new this.model();
+      player.gameId = gameId;
+      player.userId = userId;
+      player.save();
     }
-
-    const player = new this.model();
-    player.gameId = gameId;
-    player.userId = userId;
-    player.save();
   }
 
-  async find(userId: MongoId, gameId: MongoId): Promise<Player> {
+  async find(userId: MongoId, gameId: MongoId): Promise<Player | null> {
     return await this.model
       .find({ gameId: gameId, userId: userId })
       .findOne()

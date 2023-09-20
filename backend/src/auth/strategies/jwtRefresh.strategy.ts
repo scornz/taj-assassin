@@ -21,7 +21,6 @@ export class JwtRefreshStrategy extends PassportStrategy(
       if (req !== null && req.cookies !== null) {
         token = req.cookies['refresh_token'];
       }
-      console.log(token);
       return token;
     };
 
