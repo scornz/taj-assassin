@@ -48,7 +48,7 @@ export class UserService {
     user = new this.userModel();
     user.email = googleUser.email;
     user.firstName = googleUser.firstName;
-    user.surname = googleUser.lastName;
+    user.surname = googleUser.lastName ?? 'Doe';
     return await user.save();
   }
 }
