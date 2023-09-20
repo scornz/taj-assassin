@@ -9,11 +9,11 @@ async function bootstrap() {
   const config = app.get(ConfigService);
 
   const options: CorsOptions = {
-    origin: config.getOrThrow<string>('ALLOWED_ORIGINS'),
+    origin: config.getOrThrow<string>('ALLOWED_ORIGINS').split(','),
     credentials: true,
   };
   app.enableCors(options);
   app.use(cookieParser());
-  await app.listen(6060);
+  await app.listen(process.env.PORT || 6060);
 }
 bootstrap();

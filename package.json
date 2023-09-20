@@ -5,6 +5,7 @@
         "backend",
         "shared"
     ],
+    "scripts": {"deploy:backend": "cd backend && yarn install && yarn run build && yarn start:prod"},
     "name": "root",
     "version": "1.0.0",
     "description": "Root project for managing a complex game of classic assassin.",
