@@ -80,7 +80,7 @@ export class TargetService {
     }
 
     const target = await this.findByGameAndPlayer(player.gameId, playerId);
-    const targetPlayer = await this.plyr.find(target.targetId, player.gameId);
+    const targetPlayer = await this.plyr.findById(target.targetId);
     const targetUser = await this.usr.findById(targetPlayer.userId);
     return {
       name: `${targetUser.firstName} ${targetUser.surname}`,
@@ -104,22 +104,25 @@ export class TargetService {
     for (let i = 0; i < players.length; i++) {
       const target = new this.model();
       target.gameId = gameId;
+      target.playerId = new MongoId(players[i].id);
       target.targetId = new MongoId(players[(i + 1) % players.length].id);
       targetDocuments.push(target);
     }
 
-    // Assign new targets
-    this.model.insertMany(targetDocuments);
     // Set all pending targets to be expired for this game
-    this.model
+    await this.model
       .find()
       .updateMany(
-        { gameId: MongoId, status: TargetStatus.PENDING },
+        { gameId: gameId, status: TargetStatus.PENDING },
         { $set: { status: TargetStatus.EXPIRED } },
-      );
+      )
+      .exec();
+
+    // Assign new targets
+    await this.model.insertMany(targetDocuments);
 
     // Update the game status if it is not there already
-    game.updateOne({ $set: { status: GameStatus.IN_PROGRESS } });
+    await game.updateOne({ $set: { status: GameStatus.IN_PROGRESS } }).exec();
   }
 
   async killTarget(gameId: MongoId, targetId: MongoId) {
@@ -163,5 +166,11 @@ export class TargetService {
     target.gameId = gameId;
     target.targetId = killedTarget.targetId;
     newTarget.save();
+  }
+
+  async getLeaderboard(gameId: MongoId) {
+    const game = await this.gme.findById(gameId);
+
+    const players = await this.plyr.findByGame(gameId);
   }
 }

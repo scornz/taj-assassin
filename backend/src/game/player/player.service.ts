@@ -77,4 +77,8 @@ export class PlayerService {
   ): Promise<Player[]> {
     return await this.model.find({ gameId: gameId, status }).exec();
   }
+
+  async findByGame(gameId: MongoId): Promise<Player[]> {
+    return await this.model.find({ gameId: gameId }).exec();
+  }
 }
