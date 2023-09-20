@@ -14,7 +14,7 @@ import {
 
 /* Pages */
 import Root from "./pages/Root";
-import Leaderboard from "./pages/Leaderboard";
+import Leaderboard from "./pages/leaderboard/Leaderboard";
 
 /* Default font imports */
 import "@fontsource/roboto/300.css";

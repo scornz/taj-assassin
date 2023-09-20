@@ -51,6 +51,19 @@ export class PlayerService {
       .exec();
   }
 
+  /**
+   * Get a player simply via their user ID. NOTE: This just gets the most
+   * recent player, and totally breaks when there are multiple games.
+   * @param userId The ID of the user to find
+   */
+  async getByUser_DEPRECATED(userId: MongoId): Promise<Player> {
+    return await this.model
+      .find({ userId: userId })
+      .sort({ _id: -1 })
+      .findOne()
+      .exec();
+  }
+
   async findById(playerId: MongoId): Promise<Player> {
     const query = await this.model.find({ _id: playerId }).exec();
     if (!query) {

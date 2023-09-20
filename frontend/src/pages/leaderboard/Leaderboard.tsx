@@ -1,11 +1,23 @@
 import axios from "axios";
 import { redirect } from "react-router-dom";
-import { authGet } from "../utils/http";
-import { refreshTokens } from "../utils/auth";
 import { LeaderboardPlayerInfo } from "shared/api/game/player";
 
-import { Avatar, Box, Card, HStack, Stack, Text } from "@chakra-ui/react";
+import {
+  Avatar,
+  Box,
+  Card,
+  HStack,
+  Stack,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Text,
+} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import Rules from "./Rules";
+import TargetAssignment from "./TargetAssignment";
 
 let dummyData: LeaderboardPlayerInfo[] = [
   {
@@ -53,35 +65,33 @@ function Leaderboard() {
 
   return (
     <Box m={4}>
-      <Stack alignItems="center" width="100%">
-        <TargetAssignment />
-        <Stack padding={4} alignItems="center" width="100%">
-          {data.map((info, index) => (
-            <LeaderboardItem info={info} ranking={index + 1} />
-          ))}
-        </Stack>
-      </Stack>
+      <Tabs variant="soft-rounded" colorScheme="red">
+        <TabList>
+          <Tab>Leaderboard</Tab>
+          <Tab>Your Target</Tab>
+          <Tab>Rules</Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel>
+            <Stack alignItems="center" width="100%">
+              <Stack padding={4} alignItems="center" width="100%">
+                {data.map((info, index) => (
+                  <LeaderboardItem info={info} ranking={index + 1} />
+                ))}
+              </Stack>
+            </Stack>
+          </TabPanel>
+          <TabPanel>
+            <Stack alignItems="center" width="100%">
+              <TargetAssignment />
+            </Stack>
+          </TabPanel>
+          <TabPanel>
+            <Rules />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
     </Box>
-  );
-}
-
-function TargetAssignment() {
-  return (
-    <Card
-      variant="outline"
-      boxShadow={"lg"}
-      width="90%"
-      minWidth="400px"
-      padding={4}
-      backgroundColor="orange.100"
-    >
-      <Box>
-        <Text as="span" fontWeight="bold">
-          Your target:{" "}
-        </Text>
-        <Text as="span"> Testing </Text>
-      </Box>
-    </Card>
   );
 }
 

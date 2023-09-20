@@ -40,14 +40,20 @@ function Root() {
           <Box
             width="100%"
             height="50px"
-            backgroundColor="facebook.200"
+            backgroundColor="red.900"
             display="flex"
             flexDir="row"
             padding="16px"
             alignItems="center"
             fontWeight="extrabold"
           >
-            <Text fontSize="2xl">TAJ ASSASSIN</Text>
+            <Text
+              fontSize="2xl"
+              bgGradient="linear(to-l, gray.300, yellow.400, pink.200)"
+              bgClip="text"
+            >
+              TAJ ASSASSIN
+            </Text>
             <Button
               marginLeft="auto"
               onClick={async () => {

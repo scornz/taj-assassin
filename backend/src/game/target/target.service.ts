@@ -13,6 +13,7 @@ import { shuffle } from 'utils/misc';
 import { GameStatus } from 'game/game.schema';
 import { PlayerStatus } from 'game/player/player.schema';
 import {
+  GameStatusNotValidException,
   PlayerStatusNotValidException,
   TargetNotFoundException,
   TargetStatusNotValidException,
@@ -62,12 +63,24 @@ export class TargetService {
     return await this.findByGameAndPlayer(gameId, playerId);
   }
 
-  async fetchTarget(gameId: MongoId, userId: MongoId): Promise<TargetInfo> {
-    // Grab the game to make sure it exists
-    await this.gme.findById(gameId);
+  async fetchTarget(userId: MongoId): Promise<TargetInfo> {
+    const player = await this.plyr.getByUser_DEPRECATED(userId);
+    const playerId = new MongoId(player.id);
 
-    const target = await this.findByGameAndUser(gameId, userId);
-    const targetPlayer = await this.plyr.find(target.targetId, gameId);
+    const game = await this.gme.findById(player.gameId);
+
+    if (player.status !== PlayerStatus.ALIVE) {
+      // Player is no longer alive and cannot view their target
+      throw new PlayerStatusNotValidException(playerId, player.status);
+    }
+
+    if (game.status !== GameStatus.IN_PROGRESS) {
+      // Player is no longer alive and cannot view their target
+      throw new GameStatusNotValidException(player.gameId, game.status);
+    }
+
+    const target = await this.findByGameAndPlayer(player.gameId, playerId);
+    const targetPlayer = await this.plyr.find(target.targetId, player.gameId);
     const targetUser = await this.usr.findById(targetPlayer.userId);
     return {
       name: `${targetUser.firstName} ${targetUser.surname}`,
