@@ -1,1 +1,1 @@
-web: npm run deploy:backend
+web: yarn run deploy:backend
