@@ -31,6 +31,16 @@ export class UserService {
   }
 
   /**
+   * Find a set of users by their unique IDs
+   * @param ids List of IDs of the user to find
+   * @returns The found user
+   */
+  public async findByIds(ids: MongoId[]): Promise<User[]> {
+    const users = await this.userModel.find({ _id: { $in: ids } }).exec();
+    return users;
+  }
+
+  /**
    * Find a user by their unique email, if they don't exist, make a new one
    * This email is guaranteed to be verified by Google so
    * @param googleUser User returned from Google OAuth process

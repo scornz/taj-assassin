@@ -20,6 +20,7 @@ import Rules from "./Rules";
 import TargetAssignment from "./TargetAssignment";
 import { useRecoilValue } from "recoil";
 import { gameInfoAtom } from "global/user-state";
+import { fetchLeaderboard } from "api/game/target";
 
 let dummyData: LeaderboardPlayerInfo[] = [
   {
@@ -100,16 +101,19 @@ function Leaderboard() {
   }, [gameInfo, navigate]);
 
   useEffect(() => {
-    setData(
-      dummyData.sort((a, b) => {
-        if (a.alive === b.alive) {
-          return b.kills - a.kills;
-        } else {
-          if (a.alive) return -1;
-          return 1;
-        }
-      })
-    );
+    const fetch = async () => {
+      setData(
+        (await fetchLeaderboard()).sort((a, b) => {
+          if (a.alive === b.alive) {
+            return b.kills - a.kills;
+          } else {
+            if (a.alive) return -1;
+            return 1;
+          }
+        })
+      );
+    };
+    fetch();
   }, []);
 
   return (

@@ -11,7 +11,7 @@ import { PlayerService } from 'game/player/player.service';
 import { MongoId } from 'utils/mongo';
 import { shuffle } from 'utils/misc';
 import { GameStatus } from 'game/game.schema';
-import { PlayerStatus } from 'game/player/player.schema';
+import { Player, PlayerStatus } from 'game/player/player.schema';
 import {
   GameStatusNotValidException,
   PlayerStatusNotValidException,
@@ -22,6 +22,9 @@ import {
 // Objects
 import { TargetInfo } from 'shared/api/game/target';
 import { UserService } from 'user/user.service';
+import { User } from 'user/user.schema';
+
+import { LeaderboardPlayerInfo } from 'shared/api/game/player';
 
 @Injectable()
 export class TargetService {
@@ -163,14 +166,84 @@ export class TargetService {
 
     // Create new pending target for the killer
     const newTarget = new this.model();
-    target.gameId = gameId;
-    target.targetId = killedTarget.targetId;
+    newTarget.gameId = gameId;
+    newTarget.playerId = playerId;
+    newTarget.targetId = killedTarget.targetId;
     newTarget.save();
   }
 
-  async getLeaderboard(gameId: MongoId) {
+  async fetchLeaderboard(gameId: MongoId) {
     const game = await this.gme.findById(gameId);
+    const players: { [key: string]: Player } = {};
 
-    const players = await this.plyr.findByGame(gameId);
+    (await this.plyr.findByGame(gameId)).forEach(
+      (player) => (players[player.id] = player),
+    );
+    const playerIds = Object.keys(players).map((pid) => new MongoId(pid));
+
+    // Get all users associated with these players
+    const userIds = Object.values(players).map((p) => p.userId);
+    const users: { [key: string]: User } = {};
+    (await this.usr.findByIds(userIds)).forEach(
+      (user) => (users[user.id] = user),
+    );
+
+    // Grab the number of kills for each player
+    const countObjects = await this.model
+      .aggregate([
+        {
+          $match: {
+            status: 'COMPLETE',
+            playerId: { $in: playerIds },
+          },
+        },
+        {
+          $group: {
+            _id: '$playerId',
+            count: {
+              $sum: 1,
+            },
+            killed: {
+              $push: '$targetId',
+            },
+          },
+        },
+      ])
+      .exec();
+
+    const killCounts: { [key: string]: number } = {};
+    countObjects.forEach((doc) => {
+      killCounts[doc._id.toString()] = doc.count;
+    });
+
+    const killers: { [key: string]: string } = {};
+    countObjects.forEach((doc) => {
+      if (doc.killed) {
+        doc.killed.forEach((killedId) => {
+          killers[killedId.toString()] = doc._id.toString();
+        });
+      }
+    });
+
+    const allInfo: LeaderboardPlayerInfo[] = [];
+    Object.values(players).forEach((p) => {
+      const user = users[p.userId.toString()];
+      console.log(killers[p.id]);
+      console.log(players[killers[p.id]]);
+      const killer = killers[p.id]
+        ? users[players[killers[p.id]].userId.toString()]
+        : undefined;
+      const info: LeaderboardPlayerInfo = {
+        playerId: p.id,
+        name: `${user.firstName} ${user.surname}`,
+        kills: killCounts[p.id] ?? 0,
+        alive: p.status === PlayerStatus.ALIVE,
+        killedBy: killer ? `${killer.firstName} ${killer.surname}` : undefined,
+      };
+
+      allInfo.push(info);
+    });
+
+    return allInfo;
   }
 }
