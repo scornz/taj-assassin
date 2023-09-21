@@ -7,6 +7,7 @@ import { GoogleUser } from './strategies/google.strategy';
 import { JwtAuthGuard, JwtRefreshAuthGuard } from './guards';
 import { RefreshTokenService } from './refresh-token/refresh-token.service';
 import { MongoId } from 'utils/mongo';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('auth')
 export class AuthController {
@@ -14,6 +15,7 @@ export class AuthController {
     private readonly authService: AuthService,
     private readonly userService: UserService,
     private refreshService: RefreshTokenService,
+    private cfg: ConfigService,
   ) {}
 
   @Get('verify')
@@ -64,6 +66,8 @@ export class AuthController {
       httpOnly: true,
     });
 
-    res.redirect('http://localhost:3000/app/leaderboard?auth_test=hi');
+    res.redirect(
+      `${this.cfg.getOrThrow<string>('FRONTEND_HOST')}/app/register`,
+    );
   }
 }
