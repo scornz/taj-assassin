@@ -67,7 +67,7 @@ export class AuthController {
     });
 
     res.redirect(
-      `${this.cfg.getOrThrow<string>('FRONTEND_HOST')}/app/register`,
+      `${this.cfg.getOrThrow<string>('FRONTEND_HOST')}/#/app/register`,
     );
   }
 }

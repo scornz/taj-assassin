@@ -6,7 +6,7 @@ import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
 
 import {
-  createBrowserRouter,
+  createHashRouter,
   Navigate,
   Outlet,
   RouterProvider,
@@ -29,7 +29,10 @@ import { ChakraProvider } from "@chakra-ui/react";
 import Register from "pages/Register";
 import Login from "pages/Login";
 
-const router = createBrowserRouter([
+/* Why use a hash router? GitHub pages uses server routing, while React Router
+relies on clientside routing. So when we go to a page in our website, Gh-pages
+looks for an index.html, can't find it and throws a 404. */
+const router = createHashRouter([
   {
     element: (
       <ChakraProvider>
