@@ -17,14 +17,6 @@ export class GameController {
     private plyr: PlayerService,
   ) {}
 
-  @Post()
-  @UseGuards(JwtAuthGuard)
-  async create(@Req() req: Request) {
-    const userId = getUserIdFromRequest(req);
-    await this.gme.create(userId, 'Testing');
-    return { msg: 'success' };
-  }
-
   @Get('getActive')
   @UseGuards(JwtAuthGuard)
   async register(@Req() req: Request): Promise<GameInfo> {

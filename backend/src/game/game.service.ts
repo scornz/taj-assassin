@@ -9,15 +9,10 @@ import { GameNotFoundException } from 'utils/exceptions';
 export class GameService {
   constructor(@InjectModel(Game.name) private gameModel: Model<Game>) {}
 
-  async create(
-    userId: MongoId,
-    name: string,
-    requiredEmailHost?: string,
-  ): Promise<Game> {
+  async create(name: string, whitelistedEmails: string[]): Promise<Game> {
     const game = new this.gameModel();
-    game.userId = userId;
     game.name = name;
-    game.requiredEmailHost = requiredEmailHost;
+    game.whitelistedEmails = whitelistedEmails;
     return game.save();
   }
 
