@@ -37,6 +37,8 @@ function Register() {
     grab();
   }, [gameInfo, navigate]);
 
+  console.log(gameInfo?.status);
+
   return (
     <Box
       display="flex"
@@ -65,8 +67,11 @@ function Register() {
               await getActiveGame();
               navigate("/app/leaderboard");
             }}
+            isDisabled={gameInfo.status !== "SETUP"}
           >
-            Register!
+            {gameInfo.status === "SETUP"
+              ? "Register!"
+              : "Game has already started."}
           </Button>
         </Stack>
       ) : (
