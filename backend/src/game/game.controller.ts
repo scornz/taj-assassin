@@ -29,12 +29,19 @@ export class GameController {
     // Please excuse this horrendous code, I did not want to code another method
     const player = await this.plyr.find(userId, gameId);
     const registered = player !== null;
+    const events: { title: string; time: string }[] = [];
+    if (game.events) {
+      game.events.forEach((e) => {
+        events.push({ title: e.title, time: e.time.toISOString() });
+      });
+    }
 
     return {
       gameId: gameId.toString(),
       registered,
       status: game.status,
       name: game.name,
+      events: events,
     };
   }
 }

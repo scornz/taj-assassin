@@ -21,6 +21,7 @@ import TargetAssignment from "./TargetAssignment";
 import { useRecoilValue } from "recoil";
 import { gameInfoAtom } from "global/user-state";
 import { fetchLeaderboard } from "api/game/target";
+import Countdown from "./Countdown";
 
 let dummyData: LeaderboardPlayerInfo[] = [
   {
@@ -127,6 +128,7 @@ function Leaderboard() {
         <TabPanels>
           <TabPanel>
             <Stack alignItems="center" width="100%">
+              {gameInfo && <Countdown gameInfo={gameInfo} />}
               <Stack padding={4} alignItems="center" width="100%">
                 {data.map((info, index) => (
                   <LeaderboardItem info={info} ranking={index + 1} />

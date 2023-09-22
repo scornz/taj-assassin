@@ -3,4 +3,5 @@ export type GameInfo = {
   gameId: string;
   status: string;
   registered: boolean;
+  events: { title: string; time: string }[];
 };

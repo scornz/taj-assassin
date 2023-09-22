@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 /* Allows for asynchronous functions to run in sync one after another. Functions
 must take no arguments and return nothing. */
 export const syncFunction = (fn: () => void) => {
@@ -33,3 +35,39 @@ export const toStopwatchString = (seconds: number): string => {
 
   return `${minOutput}:${secOutput}`;
 };
+
+const useCountdown = (targetDate: string | null) => {
+  if (!targetDate) {
+    targetDate = new Date().toISOString();
+  }
+
+  const countDownDate = new Date(targetDate).getTime();
+
+  const [countDown, setCountDown] = useState(
+    countDownDate - new Date().getTime()
+  );
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCountDown(countDownDate - new Date().getTime());
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [countDownDate]);
+
+  return getReturnValues(countDown);
+};
+
+const getReturnValues = (countDown: number) => {
+  // calculate time left
+  const days = Math.floor(countDown / (1000 * 60 * 60 * 24));
+  const hours = Math.floor(
+    (countDown % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+  );
+  const minutes = Math.floor((countDown % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((countDown % (1000 * 60)) / 1000);
+
+  return [days, hours, minutes, seconds];
+};
+
+export { useCountdown };

@@ -27,6 +27,23 @@ export enum GameStatus {
 }
 
 @Schema()
+export class GameEvent extends mongoose.Document<mongoose.Schema.Types.ObjectId> {
+  /**
+   * The name of the event
+   */
+  @Prop({ type: String, required: true })
+  title: string;
+
+  /**
+   * The name of the event
+   */
+  @Prop({ type: Date, required: true })
+  time: Date;
+}
+
+const GameEventSchema = SchemaFactory.createForClass(GameEvent);
+
+@Schema()
 export class Game extends mongoose.Document<mongoose.Schema.Types.ObjectId> {
   /**
    * The name of this game
@@ -45,6 +62,12 @@ export class Game extends mongoose.Document<mongoose.Schema.Types.ObjectId> {
    */
   @Prop({ type: [String], required: false, default: [] })
   whitelistedEmails: string[];
+
+  /**
+   * A list of emails that are allowed to join this event
+   */
+  @Prop({ type: [GameEventSchema], required: false, default: [] })
+  events: GameEvent[];
 }
 
 export const GameSchema = SchemaFactory.createForClass(Game);
