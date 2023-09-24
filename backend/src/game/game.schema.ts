@@ -58,6 +58,12 @@ export class Game extends mongoose.Document<mongoose.Schema.Types.ObjectId> {
   status: string;
 
   /**
+   * The time that the game starts
+   */
+  @Prop({ type: Date, required: true })
+  startTime: Date;
+
+  /**
    * A list of emails that are allowed to join this event
    */
   @Prop({ type: [String], required: false, default: [] })
@@ -68,6 +74,12 @@ export class Game extends mongoose.Document<mongoose.Schema.Types.ObjectId> {
    */
   @Prop({ type: [GameEventSchema], required: false, default: [] })
   events: GameEvent[];
+
+  /**
+   * A list of daily safeties that are enacted, shown 1 a day starting at startTime
+   */
+  @Prop({ type: [String], required: false, default: [] })
+  safeties: string[];
 }
 
 export const GameSchema = SchemaFactory.createForClass(Game);
