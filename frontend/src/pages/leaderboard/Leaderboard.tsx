@@ -149,7 +149,9 @@ function Leaderboard() {
             </Stack>
           </TabPanel>
           <TabPanel>
-            <Rules />
+            <Stack alignItems="center" width="100%">
+              <Rules />
+            </Stack>
           </TabPanel>
         </TabPanels>
       </Tabs>
