@@ -2,7 +2,7 @@ import { Box, HStack, Stack, Text } from "@chakra-ui/react";
 import { GameInfo } from "shared/api/game";
 import { useCountdown } from "utils/misc";
 
-function Countdown({ gameInfo }: { gameInfo: GameInfo }) {
+function EventCountdown({ gameInfo }: { gameInfo: GameInfo }) {
   const now = new Date();
   let currentEvent: { title: string; time: string } | null = null;
   if (gameInfo.events) {
@@ -14,13 +14,37 @@ function Countdown({ gameInfo }: { gameInfo: GameInfo }) {
     }
   }
 
-  const [days, hours, minutes, seconds] = useCountdown(
-    currentEvent ? currentEvent.time : null
+  return (
+    <Countdown
+      title={currentEvent?.title ?? null}
+      time={currentEvent?.time ?? null}
+    />
   );
+}
+
+function SafetyCountdown({ gameInfo }: { gameInfo: GameInfo }) {
+  const now = new Date();
+
+  // Set it for midnight
+  now.setHours(23);
+  now.setMinutes(59);
+  now.setSeconds(59);
+
+  return <Countdown title="SAFETY SWITCHES" time={now.toISOString()} />;
+}
+
+function Countdown({
+  title,
+  time,
+}: {
+  title: string | null;
+  time: string | null;
+}) {
+  const [days, hours, minutes, seconds] = useCountdown(time);
 
   return (
     <>
-      {currentEvent && (
+      {title && (
         <Stack alignItems="center">
           <HStack>
             <DateDisplay value={days} type={"days"} isDanger={days <= 3} />
@@ -34,7 +58,7 @@ function Countdown({ gameInfo }: { gameInfo: GameInfo }) {
           <Text>
             until{" "}
             <Text display="inline" fontWeight="extrabold">
-              {currentEvent.title}
+              {title}
             </Text>
           </Text>
         </Stack>
@@ -43,7 +67,7 @@ function Countdown({ gameInfo }: { gameInfo: GameInfo }) {
   );
 }
 
-export default Countdown;
+export { EventCountdown, SafetyCountdown };
 
 const DateDisplay = ({
   value,

@@ -42,6 +42,8 @@ export class GameController {
       status: game.status,
       name: game.name,
       events: events,
+      safeties: game.safeties,
+      startTime: game.startTime.toISOString(),
     };
   }
 }
