@@ -58,6 +58,15 @@ export class GameStatusNotValidException extends HttpException {
   }
 }
 
+export class EmailNotWhitelistedException extends HttpException {
+  constructor(userId: MongoId, gameId: MongoId) {
+    super(
+      `User with ID ${userId} is cannot register for game with ID ${gameId} because their email is not whitelisted.`,
+      HttpStatus.FORBIDDEN,
+    );
+  }
+}
+
 export class PlayerAlreadyRegisteredException extends HttpException {
   constructor(userId: MongoId, gameId: MongoId) {
     super(

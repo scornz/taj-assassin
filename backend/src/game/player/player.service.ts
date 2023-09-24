@@ -7,6 +7,7 @@ import { Player, PlayerStatus } from './player.schema';
 import { Model } from 'mongoose';
 import { GameStatus } from 'game/game.schema';
 import {
+  EmailNotWhitelistedException,
   GameStatusNotValidException,
   PlayerAlreadyRegisteredException,
   PlayerNotFoundException,
@@ -27,10 +28,18 @@ export class PlayerService {
    */
   async register(userId: MongoId, gameId: MongoId) {
     const game = await this.gme.findById(gameId);
+    const user = await this.usr.findById(userId);
 
     // Only allow for player's to register while the game is in setup mode
     if (game.status != GameStatus.SETUP) {
       throw new GameStatusNotValidException(gameId, game.status);
+    }
+
+    // If the game has listed a bunch of emails, make sure to check our email is there
+    if (game.whitelistedEmails) {
+      if (!game.whitelistedEmails.includes(user.email)) {
+        throw new EmailNotWhitelistedException(userId, gameId);
+      }
     }
 
     // Make sure the player isn't already registered
