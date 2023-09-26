@@ -116,6 +116,9 @@ function Rules() {
         <UnorderedList fontWeight="normal">
           <ListItem>There will be a total of 5 rounds.</ListItem>
           <ListItem>
+            At the end of every round, all targets will be shuffled.
+          </ListItem>
+          <ListItem>
             The last round will be ANARCHY, which means there will be no safety,
             no safe words, and no safe zones.
           </ListItem>
