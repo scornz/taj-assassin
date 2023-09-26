@@ -36,7 +36,7 @@ export class PlayerService {
     }
 
     // If the game has listed a bunch of emails, make sure to check our email is there
-    if (game.whitelistedEmails) {
+    if (game.whitelistedEmails && game.whitelistedEmails.length != 0) {
       if (!game.whitelistedEmails.includes(user.email)) {
         throw new EmailNotWhitelistedException(userId, gameId);
       }

@@ -14,6 +14,7 @@ function Register() {
   const gameInfo = useRecoilValue(gameInfoAtom);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   // Attempt to auto login
   useEffect(() => {
@@ -63,16 +64,28 @@ function Register() {
             onClick={async () => {
               if (!gameInfo) return;
 
-              await register(gameInfo.gameId);
+              try {
+                await register(gameInfo.gameId);
+              } catch {
+                setError(true);
+                return;
+              }
+
               await getActiveGame();
               navigate("/app/leaderboard");
             }}
-            isDisabled={gameInfo.status !== "SETUP"}
+            isDisabled={gameInfo.status !== "SETUP" || error}
           >
             {gameInfo.status === "SETUP"
               ? "Register!"
               : "Game has already started."}
           </Button>
+          {error && (
+            <Text align="center" width="300px" color="red.400">
+              There was an error registering for this game. Make sure you are
+              using the correct account and try again.
+            </Text>
+          )}
         </Stack>
       ) : (
         <Spinner size="xl" />
