@@ -1,4 +1,10 @@
-import { List, ListItem, ListIcon, UnorderedList } from "@chakra-ui/react";
+import {
+  List,
+  ListItem,
+  ListIcon,
+  UnorderedList,
+  Text,
+} from "@chakra-ui/react";
 
 import { TimeIcon } from "@chakra-ui/icons";
 
@@ -14,22 +20,31 @@ function Rules() {
             methods, such as a water bottle or a cup of beer, do not count.
           </ListItem>
           <ListItem>
-            The kill must be caught on video and uploaded to the GroupMe, linked
-            HERE. You must include the full name of the person you have killed.
+            The kill must be caught on video and uploaded to the GroupMe, linked{" "}
+            <a href="https://groupme.com/join_group/96794581/Myt3F2CO">
+              <Text display="inline" color="blue.400">
+                HERE
+              </Text>
+            </a>
+            . You must include the full name of the person you have killed.
           </ListItem>
           <ListItem>
             If the kill is deemed valid, it will be registered here and will be
             displayed publically on the leaderboard.
           </ListItem>
           <ListItem>
-            After a kill is registered, the target of the killer will be
-            reassigned to that of whom they killed.
+            After a kill is registered, the target of the killed will be
+            reassigned to that of whom they were killed by.
           </ListItem>
           <ListItem>
             Kills are only valid during rounds. That is, in between the end of a
             round and the start of the next, kills will not count. Kills must be
             sent in the GroupMe prior to the round ending, or they will not
             count.
+          </ListItem>
+          <ListItem>
+            There are no shields. Holding a book up to protect yourself and
+            "deflect" the water will still count as a kill.
           </ListItem>
         </UnorderedList>
       </ListItem>
@@ -63,43 +78,59 @@ function Rules() {
             As the game progresses, safeties will continue to get more and more
             difficult.
           </ListItem>
+          <ListItem>
+            Every Thursday, there will be no daily safety. Safe zones (as listed
+            below) are still valid.
+          </ListItem>
         </UnorderedList>
       </ListItem>
       <ListItem fontWeight="bold">
         Safe zones
         <UnorderedList fontWeight="normal">
           <ListItem>
-            Cottage (inside and in the courtyard), no other eating clubs are
-            safe (nor dining halls)
+            This is the exhaustive list of places where a player cannot be
+            killed.
+            <UnorderedList fontWeight="normal">
+              <ListItem>
+                Cottage (inside and in the courtyard), no other eating clubs are
+                safe (nor dining halls). The exception is during nights out,
+                from 10pm-2am, the insides of other eating clubs are safe,
+                however the street is not.
+              </ListItem>
+              <ListItem>
+                Practice (during practice, preparing for practice), but not
+                travelling to practice
+              </ListItem>
+              <ListItem>Class (not that anyone goes to that anyways)</ListItem>
+            </UnorderedList>
           </ListItem>
           <ListItem>
-            Practice (during practice, preparing for practice), but not
-            travelling to practice
+            Being in a safe zone means that you are unable to kill or be killed.
+            That is, kills from a player inside a safe zone to a player outside
+            of a safe zone are not valid.
           </ListItem>
-          <ListItem>Class (not that anyone goes to that anyways)</ListItem>
         </UnorderedList>
       </ListItem>
       <ListItem fontWeight="bold">
         Timeline
         <UnorderedList fontWeight="normal">
-          <ListItem>There will be 5 total rounds</ListItem>
+          <ListItem>There will be a total of 5 rounds.</ListItem>
           <ListItem>
-            The last round will be ANARCHY, which means there will be no safety
-            and no safe words. Safe zones are still valid during this time.
+            The last round will be ANARCHY, which means there will be no safety,
+            no safe words, and no safe zones.
           </ListItem>
           <ListItem>
             At the end of 11/24, if there is still more than a single person
-            remaining, the alive participant with the most kills will claim
-            victory.
+            remaining, there will be a duel between all remaining participants
           </ListItem>
           <ListItem>
-            In the event of a tie, there will be a duel. There will be a SINGLE
-            winner.
+            Under NO circumstances will there be multiple winners. There will be
+            a SINGLE winner.
           </ListItem>
         </UnorderedList>
       </ListItem>
       <ListItem fontWeight="bold">
-        IMPORTANT DATES
+        Important dates
         <List fontWeight="normal">
           <ListItem>
             <ListIcon as={TimeIcon} color="green.500" />
@@ -142,6 +173,18 @@ function Rules() {
             END of GAME: 11/24 11:59PM
           </ListItem>
         </List>
+      </ListItem>
+      <ListItem fontWeight="bold">
+        Additional
+        <UnorderedList fontWeight="normal">
+          <ListItem>
+            Let me know if the website is bugging out or it breaks completely,
+            I'll fix it ASAP.
+          </ListItem>
+          <ListItem>
+            If there is a dispute, it will be ruled by majority vote of 1 (me).
+          </ListItem>
+        </UnorderedList>
       </ListItem>
     </UnorderedList>
   );

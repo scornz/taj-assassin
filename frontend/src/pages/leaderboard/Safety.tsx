@@ -20,11 +20,12 @@ function Safety({ gameInfo }: { gameInfo: GameInfo }) {
   diffDays -= 1;
 
   if (diffDays >= 0 && diffDays < gameInfo.safeties.length) {
-    today = gameInfo.safeties[diffDays];
+    if (gameInfo.safeties[diffDays] !== "") today = gameInfo.safeties[diffDays];
   }
 
   if (diffDays + 1 >= 0 && diffDays + 1 < gameInfo.safeties.length) {
-    tomorrow = gameInfo.safeties[diffDays + 1];
+    if (gameInfo.safeties[diffDays + 1] !== "")
+      tomorrow = gameInfo.safeties[diffDays + 1];
   }
 
   return (
