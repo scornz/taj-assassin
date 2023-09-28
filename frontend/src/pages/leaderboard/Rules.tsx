@@ -8,7 +8,7 @@ import {
   Card,
 } from "@chakra-ui/react";
 
-import { TimeIcon } from "@chakra-ui/icons";
+import { TimeIcon, ViewIcon } from "@chakra-ui/icons";
 
 function Rules() {
   return (
@@ -81,9 +81,9 @@ function Rules() {
               round ending, they will be automatically eliminated.
             </ListItem>
             <ListItem>
-              The kills do not have to be in the relevant round. That is, if a
-              player gets three kills in round 1, they will not be
-              auto-eliminated.
+              The kills do not have to be in the relevant round. A player must
+              meet the threshold in total kills, which includes those from
+              previous rounds.
             </ListItem>
           </UnorderedList>
         </ListItem>
@@ -100,8 +100,10 @@ function Rules() {
               more difficult.
             </ListItem>
             <ListItem>
-              Every Thursday, there will be no daily safety. Safe zones (as
-              listed below) are still valid.
+              The day before the end of a round, there will be no daily safety.
+              Safe zones (as listed below) are still valid during these days.
+              This presents an opportunity for everyone to eliminate their
+              target, regardless of who they are assigned.
             </ListItem>
           </UnorderedList>
         </ListItem>
@@ -119,11 +121,8 @@ function Rules() {
                   safe, however the street is not.
                 </ListItem>
                 <ListItem>
-                  Practice (during practice, preparing for practice), but not
-                  travelling to practice
-                </ListItem>
-                <ListItem>
-                  Class (not that anyone goes to that anyways)
+                  Practice and competition (during, and preparing for), but not
+                  travelling to/from.
                 </ListItem>
               </UnorderedList>
             </ListItem>
@@ -137,7 +136,10 @@ function Rules() {
         <ListItem fontWeight="bold">
           Timeline
           <UnorderedList fontWeight="normal">
-            <ListItem>There will be a total of 5 rounds.</ListItem>
+            <ListItem>
+              There will be a total of 4 rounds, summing up to 22 days of
+              in-game chaos (excluding breaks).
+            </ListItem>
             <ListItem>
               At the end of every round, all targets will be shuffled.
             </ListItem>
@@ -146,8 +148,9 @@ function Rules() {
               safety, no safe words, and no safe zones.
             </ListItem>
             <ListItem>
-              At the end of 11/24, if there is still more than a single person
-              remaining, there will be a duel between all remaining participants
+              At the end of 11/1, if there is still more than a single person
+              remaining, there will be a duel between the two remaining
+              participants with the most kills.
             </ListItem>
             <ListItem>
               Under NO circumstances will there be multiple winners. There will
@@ -159,44 +162,40 @@ function Rules() {
           Important dates
           <List fontWeight="normal">
             <ListItem>
-              <ListIcon as={TimeIcon} color="green.500" />
-              START of ROUND 1: 9/29 9AM
-            </ListItem>
-            <ListItem>
-              <ListIcon as={TimeIcon} color="red.500" />
-              END of ROUND 1: 10/12 11:59PM (1 total kill required)
+              <ListIcon as={ViewIcon} color="green.500" />
+              INITIAL TARGETS ANNOUNCED: 9/29 9AM
             </ListItem>
             <ListItem>
               <ListIcon as={TimeIcon} color="green.500" />
-              START of ROUND 2: 10/13 9AM
+              START of ROUND 1: 10/2 9AM
             </ListItem>
             <ListItem>
               <ListIcon as={TimeIcon} color="red.500" />
-              END of ROUND 2: 10/26 11:59PM (2 total kills required)
+              END of ROUND 1: 10/8 11:59PM (1 total kill required)
             </ListItem>
             <ListItem>
               <ListIcon as={TimeIcon} color="green.500" />
-              START of ROUND 3: 10/27 9AM
+              START of ROUND 2: 10/9 9AM
             </ListItem>
             <ListItem>
               <ListIcon as={TimeIcon} color="red.500" />
-              END of ROUND 3: 11/9 11:59PM (3 total kills required)
+              END of ROUND 2: 10/13 11:59PM (2 total kills required)
             </ListItem>
             <ListItem>
               <ListIcon as={TimeIcon} color="green.500" />
-              START of ROUND 4: 11/10 9AM
+              START of ROUND 3: 10/23 9AM
             </ListItem>
             <ListItem>
               <ListIcon as={TimeIcon} color="red.500" />
-              END of ROUND 4: 11/16 11:59PM
+              END of ROUND 3: 10/29 11:59PM (3 total kills required)
             </ListItem>
             <ListItem>
               <ListIcon as={TimeIcon} color="green.500" />
-              START of ANARCHY: 11/20 9AM
+              START of ANARCHY: 10/30 9AM
             </ListItem>
             <ListItem>
               <ListIcon as={TimeIcon} color="red.500" />
-              END of GAME: 11/24 11:59PM
+              END of GAME: 11/1 11:59PM
             </ListItem>
           </List>
         </ListItem>
