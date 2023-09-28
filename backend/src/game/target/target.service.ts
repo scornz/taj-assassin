@@ -284,8 +284,6 @@ export class TargetService {
     const allInfo: LeaderboardPlayerInfo[] = [];
     Object.values(players).forEach((p) => {
       const user = users[p.userId.toString()];
-      console.log(killers[p.id]);
-      console.log(players[killers[p.id]]);
       const killer = killers[p.id]
         ? users[players[killers[p.id]].userId.toString()]
         : undefined;
