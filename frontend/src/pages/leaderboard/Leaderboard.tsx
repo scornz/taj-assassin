@@ -23,71 +23,7 @@ import { gameInfoAtom } from "global/user-state";
 import { fetchLeaderboard } from "api/game/target";
 import { EventCountdown } from "./Countdown";
 import Safety from "./Safety";
-
-let dummyData: LeaderboardPlayerInfo[] = [
-  {
-    playerId: "123abc",
-    name: "John One",
-    kills: 1,
-    alive: true,
-  },
-  {
-    playerId: "456def",
-    name: "Mike Scornavacca",
-    kills: 5,
-    alive: false,
-    killedBy: "Steve Smith",
-  },
-  {
-    playerId: "789hij",
-    name: "Will Two",
-    kills: 4,
-    alive: true,
-  },
-  {
-    playerId: "123klm",
-    name: "Joe Four",
-    kills: 1,
-    alive: true,
-  },
-  {
-    playerId: "hswkl372",
-    name: "Foo Bar",
-    kills: 8,
-    alive: false,
-    killedBy: "Will Two",
-  },
-  {
-    playerId: "ndig1974",
-    name: "Tom John",
-    kills: 1,
-    alive: true,
-  },
-  {
-    playerId: "nqiorpw76108",
-    name: "Bob Willy",
-    kills: 4,
-    alive: true,
-  },
-  {
-    playerId: "xbvwk16709",
-    name: "Wow Creative",
-    kills: 2,
-    alive: true,
-  },
-  {
-    playerId: "bsaghd7489",
-    name: "Killer Man",
-    kills: 5,
-    alive: true,
-  },
-  {
-    playerId: "apqocgh73",
-    name: "No Name",
-    kills: 1,
-    alive: true,
-  },
-];
+import AllTargets from "./admin/AllTargets";
 
 function Leaderboard() {
   const [data, setData] = useState<LeaderboardPlayerInfo[]>([]);
@@ -96,7 +32,7 @@ function Leaderboard() {
 
   useEffect(() => {
     // Only use this is the user ID is not null
-    if (gameInfo === undefined || gameInfo.registered === false) {
+    if (gameInfo === undefined || gameInfo.role === "NONE") {
       navigate("/app/register");
       return;
     }
@@ -120,41 +56,77 @@ function Leaderboard() {
 
   return (
     <Box m={4}>
-      <Tabs variant="soft-rounded" colorScheme="red">
-        <TabList>
-          <Tab>Leaderboard</Tab>
-          <Tab>Your Target</Tab>
-          <Tab>Safety</Tab>
-          <Tab>Rules</Tab>
-        </TabList>
-        <TabPanels>
-          <TabPanel>
-            <Stack alignItems="center" width="100%">
-              {gameInfo && <EventCountdown gameInfo={gameInfo} />}
-              <Stack padding={4} alignItems="center" width="100%">
-                {data.map((info, index) => (
-                  <LeaderboardItem info={info} ranking={index + 1} />
-                ))}
+      {gameInfo?.role === "ADMIN" ? (
+        <Tabs variant="soft-rounded" colorScheme="green">
+          <TabList>
+            <Tab>Leaderboard</Tab>
+            <Tab>All Targets</Tab>
+            <Tab>Safety</Tab>
+            <Tab>Rules</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <Stack alignItems="center" width="100%">
+                {gameInfo && <EventCountdown gameInfo={gameInfo} />}
+                <Stack padding={4} alignItems="center" width="100%">
+                  {data.map((info, index) => (
+                    <LeaderboardItem info={info} ranking={index + 1} />
+                  ))}
+                </Stack>
               </Stack>
-            </Stack>
-          </TabPanel>
-          <TabPanel>
-            <Stack alignItems="center" width="100%">
-              <TargetAssignment />
-            </Stack>
-          </TabPanel>
-          <TabPanel>
-            <Stack alignItems="center" width="100%">
-              {gameInfo && <Safety gameInfo={gameInfo} />}
-            </Stack>
-          </TabPanel>
-          <TabPanel>
-            <Stack alignItems="center" width="100%">
-              <Rules />
-            </Stack>
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
+            </TabPanel>
+            <TabPanel>
+              <AllTargets />
+            </TabPanel>
+            <TabPanel>
+              <Stack alignItems="center" width="100%">
+                {gameInfo && <Safety gameInfo={gameInfo} />}
+              </Stack>
+            </TabPanel>
+            <TabPanel>
+              <Stack alignItems="center" width="100%">
+                <Rules />
+              </Stack>
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
+      ) : (
+        <Tabs variant="soft-rounded" colorScheme="red">
+          <TabList>
+            <Tab>Leaderboard</Tab>
+            <Tab>Your Target</Tab>
+            <Tab>Safety</Tab>
+            <Tab>Rules</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <Stack alignItems="center" width="100%">
+                {gameInfo && <EventCountdown gameInfo={gameInfo} />}
+                <Stack padding={4} alignItems="center" width="100%">
+                  {data.map((info, index) => (
+                    <LeaderboardItem info={info} ranking={index + 1} />
+                  ))}
+                </Stack>
+              </Stack>
+            </TabPanel>
+            <TabPanel>
+              <Stack alignItems="center" width="100%">
+                <TargetAssignment />
+              </Stack>
+            </TabPanel>
+            <TabPanel>
+              <Stack alignItems="center" width="100%">
+                {gameInfo && <Safety gameInfo={gameInfo} />}
+              </Stack>
+            </TabPanel>
+            <TabPanel>
+              <Stack alignItems="center" width="100%">
+                <Rules />
+              </Stack>
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
+      )}
     </Box>
   );
 }

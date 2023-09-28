@@ -29,7 +29,7 @@ function Register() {
       try {
         const game = await getActiveGame();
         console.log(game);
-        if (game.registered) navigate("/app/leaderboard");
+        if (game.role !== "NONE") navigate("/app/leaderboard");
       } catch {
         setLoading(false);
       }

@@ -30,7 +30,8 @@ function TargetAssignment() {
         const target = await fetchTarget();
         setTarget(target);
         setError(false);
-      } catch {
+      } catch (e) {
+        console.log(e);
         setError(true);
       }
     };

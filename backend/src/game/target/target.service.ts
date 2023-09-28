@@ -67,8 +67,8 @@ export class TargetService {
     return await this.findByGameAndPlayer(gameId, playerId);
   }
 
-  async fetchTarget(userId: MongoId): Promise<TargetInfo> {
-    const player = await this.plyr.getByUser_DEPRECATED(userId);
+  async fetchTarget(gameId: MongoId, userId: MongoId): Promise<TargetInfo> {
+    const player = await this.plyr.find(userId, gameId);
     const playerId = new MongoId(player.id);
 
     const game = await this.gme.findById(player.gameId);

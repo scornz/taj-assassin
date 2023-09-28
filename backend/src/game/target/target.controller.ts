@@ -12,9 +12,13 @@ export class TargetController {
 
   @Get('fetchTarget')
   @UseGuards(JwtAuthGuard)
-  async fetchTarget(@Req() req: Request) {
+  async fetchTarget(
+    @Req() req: Request,
+    @QueryRequired('gameId') gameIdQuery: string,
+  ) {
     const userId = getUserIdFromRequest(req);
-    const data = await this.trgt.fetchTarget(userId);
+    const gameId = new MongoId(gameIdQuery);
+    const data = await this.trgt.fetchTarget(gameId, userId);
     return data;
   }
 
