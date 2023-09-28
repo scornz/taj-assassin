@@ -3,13 +3,12 @@ import { InjectModel } from '@nestjs/mongoose';
 import { GameService } from 'game/game.service';
 import { UserService } from 'user/user.service';
 import { MongoId } from 'utils/mongo';
-import { Player, PlayerStatus } from './player.schema';
+import { Player, PlayerRole, PlayerStatus } from './player.schema';
 import { Model } from 'mongoose';
 import { GameStatus } from 'game/game.schema';
 import {
   EmailNotWhitelistedException,
   GameStatusNotValidException,
-  PlayerAlreadyRegisteredException,
   PlayerNotFoundException,
 } from 'utils/exceptions';
 
@@ -49,6 +48,31 @@ export class PlayerService {
       player.userId = userId;
       player.save();
     }
+  }
+
+  /**
+   * Return the role for user (`userId`) in the context of game (`gamdId`)
+   * @param gameId The unique ID for the game
+   * @param userId The unique ID for the general user
+   */
+  async getRole(gameId: MongoId, userId: MongoId): Promise<PlayerRole> {
+    const user = await this.usr.findById(userId);
+    const game = await this.gme.findById(gameId);
+
+    const email = user.email;
+    // If this user's email is listed in the set of admins
+    if (game.admins.includes(email)) {
+      return PlayerRole.ADMIN;
+    }
+
+    const player = await this.find(userId, gameId);
+    const registered = player !== null;
+    if (registered) {
+      return PlayerRole.PLAYER;
+    }
+
+    // If the user is not an admin OR a player, they must be a nobody (what a shame)
+    return PlayerRole.NONE;
   }
 
   async find(userId: MongoId, gameId: MongoId): Promise<Player | null> {

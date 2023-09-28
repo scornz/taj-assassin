@@ -5,9 +5,10 @@ import { Request } from 'express';
 import { JwtAuthGuard } from 'auth/guards';
 import { MongoId } from 'utils/mongo';
 import { ConfigService } from '@nestjs/config';
-import { PlayerService } from './player/player.service';
 
 import { GameInfo } from 'shared/api/game';
+import { PlayerService } from './player/player.service';
+import { PlayerRole } from './player/player.schema';
 
 @Controller('game')
 export class GameController {
@@ -25,10 +26,11 @@ export class GameController {
     const gameId = new MongoId(this.cfg.get<string>('ACTIVE_GAME_ID'));
     const game = await this.gme.findById(gameId);
 
-    // Jankily find
-    // Please excuse this horrendous code, I did not want to code another method
-    const player = await this.plyr.find(userId, gameId);
-    const registered = player !== null;
+    // Fetch the user's role in a part of this game
+    const role = await this.plyr.getRole(gameId, userId);
+    const registered = role == PlayerRole.PLAYER;
+
+    // Grab the list of events for this game, and convert the time to a standardized ISO string
     const events: { title: string; time: string }[] = [];
     if (game.events) {
       game.events.forEach((e) => {
@@ -40,6 +42,7 @@ export class GameController {
       gameId: gameId.toString(),
       registered,
       status: game.status,
+      role: role,
       name: game.name,
       events: events,
       safeties: game.safeties,

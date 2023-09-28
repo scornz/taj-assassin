@@ -19,6 +19,19 @@ export enum PlayerStatus {
   DISQUALIFIED = 'DISQUALIFIED',
 }
 
+/**
+ * Describes the role of a user's role in a particular game
+ */
+export enum PlayerRole {
+  // User is an admin for this game and can conduct admin actions as such
+  // This user cannot register for the game
+  ADMIN = 'ADMIN',
+  // User is a player for this game
+  PLAYER = 'PLAYER',
+  // This user is neither registered, nor an admin
+  NONE = 'NONE',
+}
+
 @Schema()
 export class Player extends mongoose.Document<mongoose.Schema.Types.ObjectId> {
   /**
