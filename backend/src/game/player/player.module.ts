@@ -9,7 +9,6 @@ import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    PlayerModule,
     forwardRef(() => GameModule),
     UserModule,
     MongooseModule.forFeature([{ name: Player.name, schema: PlayerSchema }]),
