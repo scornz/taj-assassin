@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
-import { MongoId } from '../utils/mongo';
 
 export type GameDocument = HydratedDocument<Game>;
 
@@ -68,6 +67,13 @@ export class Game extends mongoose.Document<mongoose.Schema.Types.ObjectId> {
    */
   @Prop({ type: [String], required: false, default: [] })
   whitelistedEmails: string[];
+
+  /**
+   * A list of emails that are authenticated to do admin related tasks for
+   * this game.
+   */
+  @Prop({ type: [String], required: false, default: [] })
+  admins: string[];
 
   /**
    * A list of emails that are allowed to join this event
