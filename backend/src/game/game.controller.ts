@@ -28,7 +28,7 @@ export class GameController {
 
     // Fetch the user's role in a part of this game
     const role = await this.plyr.getRole(gameId, userId);
-    const registered = role == PlayerRole.PLAYER;
+    const registered = role === PlayerRole.PLAYER;
 
     // Grab the list of events for this game, and convert the time to a standardized ISO string
     const events: { title: string; time: string }[] = [];

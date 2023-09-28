@@ -11,9 +11,10 @@ import { PlayerService } from 'game/player/player.service';
 import { MongoId } from 'utils/mongo';
 import { shuffle } from 'utils/misc';
 import { GameStatus } from 'game/game.schema';
-import { Player, PlayerStatus } from 'game/player/player.schema';
+import { Player, PlayerRole, PlayerStatus } from 'game/player/player.schema';
 import {
   GameStatusNotValidException,
+  PlayerRoleUnauthorizedException,
   PlayerStatusNotValidException,
   TargetNotFoundException,
   TargetStatusNotValidException,
@@ -96,8 +97,14 @@ export class TargetService {
    * @param gameId The game in question
    * @param userId The user to register for the game in question
    */
-  async matchPlayers(gameId: MongoId) {
+  async matchPlayers(userId: MongoId, gameId: MongoId) {
     const game = await this.gme.findById(gameId);
+
+    // Only allow admins to conduct this action
+    const role = await this.plyr.getRole(gameId, userId);
+    if (role !== PlayerRole.ADMIN) {
+      throw new PlayerRoleUnauthorizedException(userId, role);
+    }
 
     // Get all alive players, randomized order
     const players = shuffle(await this.plyr.findByGameAndStatus(gameId));
@@ -128,9 +135,15 @@ export class TargetService {
     await game.updateOne({ $set: { status: GameStatus.IN_PROGRESS } }).exec();
   }
 
-  async killTarget(gameId: MongoId, targetId: MongoId) {
+  async killTarget(userId: MongoId, gameId: MongoId, targetId: MongoId) {
     // Grab the game to make sure it exists
     await this.gme.findById(gameId);
+
+    // Only allow admins to conduct this action
+    const role = await this.plyr.getRole(gameId, userId);
+    if (role !== PlayerRole.ADMIN) {
+      throw new PlayerRoleUnauthorizedException(userId, role);
+    }
 
     const target = await this.findById(targetId);
 
@@ -170,6 +183,49 @@ export class TargetService {
     newTarget.playerId = playerId;
     newTarget.targetId = killedTarget.targetId;
     newTarget.save();
+  }
+
+  async fetchTargets(userId: MongoId, gameId: MongoId) {
+    // Only allow admins to conduct this action
+    const role = await this.plyr.getRole(gameId, userId);
+    if (role !== PlayerRole.ADMIN) {
+      throw new PlayerRoleUnauthorizedException(userId, role);
+    }
+
+    const players: { [key: string]: Player } = {};
+    (await this.plyr.findByGame(gameId)).forEach(
+      (player) => (players[player.id] = player),
+    );
+    const playerIds = Object.keys(players).map((pid) => new MongoId(pid));
+
+    // Get all users associated with these players
+    const userIds = Object.values(players).map((p) => p.userId);
+    const users: { [key: string]: User } = {};
+    (await this.usr.findByIds(userIds)).forEach(
+      (user) => (users[user.id] = user),
+    );
+
+    const playersToUsers: { [key: string]: User } = {};
+    Object.values(players).forEach((p) => {
+      playersToUsers[p.id] = users[p.userId.toString()];
+    });
+
+    const all = await this.model.find({ gameId: gameId }).exec();
+
+    const data = [];
+    all.forEach((t) => {
+      // The users in question
+      const from = playersToUsers[t.playerId.toString()];
+      const to = playersToUsers[t.targetId.toString()];
+      const targetId = t.id;
+      data.push({
+        fromName: `${from.firstName} ${from.surname}`,
+        toName: `${to.firstName} ${to.surname}`,
+        targetId,
+        status: t.status,
+      });
+    });
+    return data;
   }
 
   async fetchLeaderboard(gameId: MongoId) {

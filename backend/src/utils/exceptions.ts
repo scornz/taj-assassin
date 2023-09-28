@@ -85,6 +85,15 @@ export class PlayerStatusNotValidException extends HttpException {
   }
 }
 
+export class PlayerRoleUnauthorizedException extends HttpException {
+  constructor(id: MongoId, role: string) {
+    super(
+      `Player with ID ${id} has an invalid role of ${role} for this action.`,
+      HttpStatus.UNAUTHORIZED,
+    );
+  }
+}
+
 export class TargetStatusNotValidException extends HttpException {
   constructor(id: MongoId, status: string) {
     super(
