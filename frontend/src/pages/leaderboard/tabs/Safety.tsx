@@ -1,5 +1,5 @@
 import { GameInfo } from "shared/api/game";
-import { SafetyCountdown } from "./Countdown";
+import { SafetyCountdown } from "components/Countdown";
 import { Card, Stack, Text } from "@chakra-ui/react";
 
 /**

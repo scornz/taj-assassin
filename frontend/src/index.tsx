@@ -21,7 +21,6 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-import GoogleAuthCallback from "./pages/GoogleAuthCallback";
 import { RecoilRoot } from "recoil";
 import RecoilNexus from "recoil-nexus";
 
@@ -57,10 +56,6 @@ const router = createHashRouter([
             element: <Navigate to="/app/register" />,
           },
         ],
-      },
-      {
-        path: "/google",
-        element: <GoogleAuthCallback />,
       },
       {
         path: "/login",

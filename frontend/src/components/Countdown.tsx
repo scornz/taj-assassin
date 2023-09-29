@@ -1,4 +1,4 @@
-import { Box, HStack, Stack, Text } from "@chakra-ui/react";
+import { HStack, Stack, Text } from "@chakra-ui/react";
 import { GameInfo } from "shared/api/game";
 import { useCountdown } from "utils/misc";
 
