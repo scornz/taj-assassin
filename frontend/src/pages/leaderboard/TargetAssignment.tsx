@@ -31,7 +31,6 @@ function TargetAssignment() {
         setTarget(target);
         setError(false);
       } catch (e) {
-        console.log(e);
         setError(true);
       }
     };

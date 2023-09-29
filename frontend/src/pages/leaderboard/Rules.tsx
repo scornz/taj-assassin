@@ -19,14 +19,20 @@ function Rules() {
         width="90%"
         minWidth="400px"
         padding={4}
-        backgroundColor="red.100"
+        backgroundColor="yellow.100"
         display="flex"
         alignItems="center"
       >
         <Text fontWeight="extrabold">WARNING</Text>
         <Text fontWeight="normal" align="center">
-          These rules are not final until 9/28 at 11:59 PM. They will be
-          changed.
+          These rules are subject to slight changes, however changes will be
+          announced{" "}
+          <a href="https://groupme.com/join_group/96794581/Myt3F2CO">
+            <Text display="inline" color="blue.400">
+              in the GroupMe
+            </Text>
+          </a>{" "}
+          as they arise throughout the course of the game.
         </Text>
       </Card>
       <UnorderedList maxWidth="500px">
@@ -123,6 +129,9 @@ function Rules() {
                 <ListItem>
                   Practice and competition (during, and preparing for), but not
                   travelling to/from.
+                </ListItem>
+                <ListItem>
+                  Bedrooms, but common rooms, dorm hallways, etc. are fair game.
                 </ListItem>
               </UnorderedList>
             </ListItem>

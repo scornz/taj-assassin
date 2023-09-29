@@ -32,7 +32,7 @@ function MultiButton({
       }}
       {...props}
     >
-      {props.children} ({clicksRequired - clicks})
+      {props.children} ({clicksRequired - clicks} clicks)
     </Button>
   );
 }
