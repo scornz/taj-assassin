@@ -1,36 +1,27 @@
-import axios from "axios";
-import { redirect } from "react-router-dom";
-import { LeaderboardPlayerInfo } from "shared/api/game/player";
-
-import {
-  Avatar,
-  Box,
-  Card,
-  HStack,
-  Stack,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Card, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { fetchTarget } from "../../api/game/target";
+import { fetchTarget } from "api/game/target";
 import { TargetInfo } from "shared/api/game/target";
 
+/**
+ * Page that displays a single card that shows the player's current target (or
+ * states that it is not available)
+ */
 function TargetAssignment() {
+  // Info about the target
   const [target, setTarget] = useState<TargetInfo | null>(null);
-
+  // Whether or not there was an error retrieving the target
   const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetch = async () => {
       try {
+        // Attempt to fetch
         const target = await fetchTarget();
         setTarget(target);
         setError(false);
       } catch (e) {
+        // State that target is not available
         setError(true);
       }
     };

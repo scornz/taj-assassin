@@ -2,9 +2,16 @@ import { Box, HStack, Stack, Text } from "@chakra-ui/react";
 import { GameInfo } from "shared/api/game";
 import { useCountdown } from "utils/misc";
 
+/**
+ * Variation that counts down until a specific event within the game, getting
+ * the next event that hasn't surpassed yet
+ */
 function EventCountdown({ gameInfo }: { gameInfo: GameInfo }) {
   const now = new Date();
   let currentEvent: { title: string; time: string } | null = null;
+
+  /* If the events exist, grab the next one in sequence that has not surpassed
+  in time yet */
   if (gameInfo.events) {
     for (let i = 0; i < gameInfo.events.length; i++) {
       if (new Date(gameInfo.events[i].time) > now) {
@@ -22,7 +29,10 @@ function EventCountdown({ gameInfo }: { gameInfo: GameInfo }) {
   );
 }
 
-function SafetyCountdown({ gameInfo }: { gameInfo: GameInfo }) {
+/**
+ * Variation that simply counts down until midnight (for when the safety switches)
+ */
+function SafetyCountdown() {
   const now = new Date();
 
   // Set it for midnight
@@ -33,6 +43,9 @@ function SafetyCountdown({ gameInfo }: { gameInfo: GameInfo }) {
   return <Countdown title="SAFETY SWITCHES" time={now.toISOString()} />;
 }
 
+/**
+ * General countdown timer with a title until a time.
+ */
 function Countdown({
   title,
   time,
@@ -47,13 +60,13 @@ function Countdown({
       {title && (
         <Stack alignItems="center">
           <HStack>
-            <DateDisplay value={days} type={"days"} isDanger={days <= 3} />
+            <DateDisplay value={days} type={"days"} />
             <p>:</p>
-            <DateDisplay value={hours} type={"hours"} isDanger={false} />
+            <DateDisplay value={hours} type={"hours"} />
             <p>:</p>
-            <DateDisplay value={minutes} type={"minutes"} isDanger={false} />
+            <DateDisplay value={minutes} type={"minutes"} />
             <p>:</p>
-            <DateDisplay value={seconds} type={"seconds"} isDanger={false} />
+            <DateDisplay value={seconds} type={"seconds"} />
           </HStack>
           <Text>
             until{" "}
@@ -69,15 +82,10 @@ function Countdown({
 
 export { EventCountdown, SafetyCountdown };
 
-const DateDisplay = ({
-  value,
-  type,
-  isDanger,
-}: {
-  value: number;
-  type: string;
-  isDanger: boolean;
-}) => {
+/**
+ * Displays a single value with some text underneath it.
+ */
+const DateDisplay = ({ value, type }: { value: number; type: string }) => {
   return (
     <Stack alignItems="center">
       <Text fontWeight="extrabold">{value}</Text>

@@ -10,6 +10,11 @@ import {
 
 import { TimeIcon, ViewIcon } from "@chakra-ui/icons";
 
+/**
+ * Description of the rules and regulations of the game. Includes a few links
+ * to a GroupMe, safe zones, safeties, etc.. This page is updated frequently
+ * when there are new changes.
+ */
 function Rules() {
   return (
     <Stack alignItems="center">
