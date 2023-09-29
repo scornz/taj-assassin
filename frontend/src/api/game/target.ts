@@ -1,4 +1,4 @@
-import { TargetInfo } from "shared/api/game/target";
+import { DetailedTargetInfo, TargetInfo } from "shared/api/game/target";
 import { authGet, authPost } from "../../utils/http";
 import { LeaderboardPlayerInfo } from "shared/api/game/player";
 import { getRecoil } from "recoil-nexus";
@@ -24,11 +24,15 @@ export const fetchLeaderboard = async (): Promise<LeaderboardPlayerInfo[]> => {
   ).data;
 };
 
-export const fetchTargets = async (): Promise<any[]> => {
+export const fetchTargets = async (): Promise<DetailedTargetInfo[]> => {
   const info = getRecoil(gameInfoAtom);
   if (!info) return [];
 
-  return (await authGet<any[]>(`/game/target/all?gameId=${info.gameId}`)).data;
+  return (
+    await authGet<DetailedTargetInfo[]>(
+      `/game/target/all?gameId=${info.gameId}`
+    )
+  ).data;
 };
 
 export const killTarget = async (targetId: string) => {

@@ -1,18 +1,19 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  Card,
-  HStack,
-  Stack,
-  Text,
-} from "@chakra-ui/react";
-import { fetchTargets, killTarget, matchTargets } from "api/game/target";
-import MultiButton from "components/MultiButton";
 import { useCallback, useEffect, useState } from "react";
+import { Card, HStack, Stack, Text } from "@chakra-ui/react";
 
+// API
+import { fetchTargets, killTarget, matchTargets } from "api/game/target";
+import { DetailedTargetInfo } from "shared/api/game/target";
+
+// Components
+import MultiButton from "components/MultiButton";
+
+/**
+ * Page designed only for admins of games, displaying all targets (present and past),
+ * and allows for marking kills or regenerating
+ */
 function AllTargets() {
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<DetailedTargetInfo[]>([]);
 
   const grabTargets = useCallback(async () => {
     setData(
@@ -31,8 +32,8 @@ function AllTargets() {
           return 1;
         }
 
-        // Unless they are equal and non-expired, then sorting does not matter
-        return b.fromName - a.fromName;
+        // Unless they are equal and non-expired, sort by first name
+        return a.fromName.localeCompare(b.fromName);
       })
     );
   }, []);
@@ -75,13 +76,9 @@ function AllTargets() {
         Generate/overwrite targets
       </MultiButton>
       <Stack padding={4} alignItems="center" width="100%">
-        {data.length != 0 ? (
+        {data.length !== 0 ? (
           data.map((info, index) => (
-            <TargetItem
-              info={info}
-              ranking={index + 1}
-              grabTargets={grabTargets}
-            />
+            <TargetItem info={info} grabTargets={grabTargets} />
           ))
         ) : (
           <Card
@@ -107,22 +104,23 @@ function AllTargets() {
 
 function TargetItem({
   info,
-  ranking,
   grabTargets,
 }: {
   info: any;
-  ranking: number;
   grabTargets: () => void;
 }) {
   const [loading, setLoading] = useState(false);
-
   let color = "white";
-  if (info.status === "COMPLETE") {
-    color = "green.100";
-  } else if (info.status === "EXPIRED") {
-    color = "yellow.100";
-  } else if (info.status === "USER_KILLED") {
-    color = "red.100";
+  switch (info.status) {
+    case "COMPLETE":
+      color = "green.100";
+      break;
+    case "EXPIRED":
+      color = "yellow.100";
+      break;
+    case "USER_KILLED":
+      color = "red.100";
+      break;
   }
 
   return (

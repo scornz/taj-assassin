@@ -131,7 +131,8 @@ function Rules() {
                   travelling to/from.
                 </ListItem>
                 <ListItem>
-                  Bedrooms, but common rooms, dorm hallways, etc. are fair game.
+                  Own bedrooms, but common rooms, dorm hallways, and other's
+                  bedrooms are fair game.
                 </ListItem>
               </UnorderedList>
             </ListItem>
