@@ -16,16 +16,6 @@ export const syncFunction = (fn: () => void) => {
   };
 };
 
-/* Returns true iff date is a date from some time today. */
-export const isToday = (date: Date): boolean => {
-  const today = new Date();
-  return (
-    date.getDate() === today.getDate() &&
-    date.getMonth() === today.getMonth() &&
-    date.getFullYear() === today.getFullYear()
-  );
-};
-
 /* Converts number of seconds into format of a stopwatch */
 export const toStopwatchString = (seconds: number): string => {
   const min = Math.floor(seconds / 60);
@@ -36,36 +26,40 @@ export const toStopwatchString = (seconds: number): string => {
   return `${minOutput}:${secOutput}`;
 };
 
+/**
+ * Counts down to start date, broken into days, hours, minutes and seconds
+ */
 const useCountdown = (targetDate: string | null) => {
   if (!targetDate) {
     targetDate = new Date().toISOString();
   }
 
-  const countDownDate = new Date(targetDate).getTime();
-
-  const [countDown, setCountDown] = useState(
-    countDownDate - new Date().getTime()
+  const countdownDate = new Date(targetDate).getTime();
+  const [countdown, setCountdown] = useState(
+    countdownDate - new Date().getTime()
   );
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCountDown(countDownDate - new Date().getTime());
+      setCountdown(countdownDate - new Date().getTime());
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [countDownDate]);
-
-  return getReturnValues(countDown);
+  }, [countdownDate]);
+  return getReturnValues(countdown);
 };
 
-const getReturnValues = (countDown: number) => {
+/**
+ * Returns number as days hours minutes and seconds.
+ */
+const getReturnValues = (countdown: number) => {
   // calculate time left
-  const days = Math.floor(countDown / (1000 * 60 * 60 * 24));
+  const days = Math.floor(countdown / (1000 * 60 * 60 * 24));
   const hours = Math.floor(
-    (countDown % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    (countdown % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
   );
-  const minutes = Math.floor((countDown % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((countDown % (1000 * 60)) / 1000);
+  const minutes = Math.floor((countdown % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((countdown % (1000 * 60)) / 1000);
 
   return [days, hours, minutes, seconds];
 };

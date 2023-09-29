@@ -4,6 +4,7 @@ import { LeaderboardPlayerInfo } from "shared/api/game/player";
 import { getRecoil } from "recoil-nexus";
 import { gameInfoAtom } from "global/user-state";
 
+/** Fetch current target of the active game. */
 export const fetchTarget = async (): Promise<TargetInfo> => {
   const info = getRecoil(gameInfoAtom);
   if (!info) throw new Error();
@@ -13,6 +14,7 @@ export const fetchTarget = async (): Promise<TargetInfo> => {
   ).data;
 };
 
+/** Fetch leaderboard of the active game. */
 export const fetchLeaderboard = async (): Promise<LeaderboardPlayerInfo[]> => {
   const info = getRecoil(gameInfoAtom);
   if (!info) return [];
@@ -24,6 +26,7 @@ export const fetchLeaderboard = async (): Promise<LeaderboardPlayerInfo[]> => {
   ).data;
 };
 
+/** ADMIN ONLY: Fetch all targets of the active game. */
 export const fetchTargets = async (): Promise<DetailedTargetInfo[]> => {
   const info = getRecoil(gameInfoAtom);
   if (!info) return [];
@@ -35,6 +38,7 @@ export const fetchTargets = async (): Promise<DetailedTargetInfo[]> => {
   ).data;
 };
 
+/** ADMIN ONLY: Mark a target pair as complete. */
 export const killTarget = async (targetId: string) => {
   const info = getRecoil(gameInfoAtom);
   if (!info) return [];
@@ -44,6 +48,7 @@ export const killTarget = async (targetId: string) => {
   );
 };
 
+/** ADMIN ONLY: Expire all past targets and create new matchings for alive players. */
 export const matchTargets = async () => {
   const info = getRecoil(gameInfoAtom);
   if (!info) return;

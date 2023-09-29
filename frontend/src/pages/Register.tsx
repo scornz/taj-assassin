@@ -1,15 +1,16 @@
-import { BASE_URL } from "../constants";
 import { useEffect, useState } from "react";
-import { gameInfoAtom, userIDAtom } from "../global/user-state";
+import { gameInfoAtom } from "../global/user-state";
 import { useRecoilValue } from "recoil";
 import { useNavigate } from "react-router-dom";
-import { requestTokens } from "../utils/auth";
 
 // Componenets
 import { Box, Button, Spinner, Stack, Text } from "@chakra-ui/react";
 import { getActiveGame } from "api/game";
 import { register } from "api/game/player";
 
+/**
+ * Page that allows for unregistered users to register for the current game.
+ */
 function Register() {
   const gameInfo = useRecoilValue(gameInfoAtom);
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ function Register() {
     const grab = async () => {
       try {
         const game = await getActiveGame();
-        console.log(game);
+        // If they aren't registered, keep them here, otherwise navigate to leaderboard
         if (game.role !== "NONE") navigate("/app/leaderboard");
       } catch {
         setLoading(false);
@@ -37,8 +38,6 @@ function Register() {
     // Otherwise, attempt to grab refresh tokens
     grab();
   }, [gameInfo, navigate]);
-
-  console.log(gameInfo?.status);
 
   return (
     <Box

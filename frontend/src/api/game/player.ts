@@ -1,6 +1,8 @@
-import { TargetInfo } from "shared/api/game/target";
-import { authGet, authPost } from "../../utils/http";
+import { authPost } from "../../utils/http";
 
+/**
+ * Register a player for the given game
+ */
 export const register = async (gameId: string) => {
   await authPost(`/game/player/register?gameId=${gameId}`);
 };

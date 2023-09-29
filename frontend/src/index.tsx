@@ -13,8 +13,10 @@ import {
 } from "react-router-dom";
 
 /* Pages */
-import Root from "./pages/Root";
-import Leaderboard from "./pages/leaderboard/Leaderboard";
+import Root from "pages/Root";
+import Leaderboard from "pages/leaderboard/Leaderboard";
+import Register from "pages/Register";
+import Login from "pages/Login";
 
 /* Default font imports */
 import "@fontsource/roboto/300.css";
@@ -25,8 +27,6 @@ import { RecoilRoot } from "recoil";
 import RecoilNexus from "recoil-nexus";
 
 import { ChakraProvider } from "@chakra-ui/react";
-import Register from "pages/Register";
-import Login from "pages/Login";
 
 /* Why use a hash router? GitHub pages uses server routing, while React Router
 relies on clientside routing. So when we go to a page in our website, Gh-pages
@@ -53,7 +53,7 @@ const router = createHashRouter([
           },
           {
             path: "*",
-            element: <Navigate to="/app/register" />,
+            element: <Navigate to="/app/leaderboard" />,
           },
         ],
       },

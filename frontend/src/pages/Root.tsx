@@ -1,13 +1,19 @@
+import { useEffect, useState } from "react";
+
 import { Box, Button, Text } from "@chakra-ui/react";
 import { Outlet, useNavigate } from "react-router-dom";
-import { userIDAtom } from "../global/user-state";
 import { useRecoilValue } from "recoil";
-import { useEffect, useState } from "react";
-import { refreshTokens, requestTokens } from "../utils/auth";
-import { getRecoil } from "recoil-nexus";
-import { get } from "../utils/http";
-import { logout } from "../api/auth";
 
+// State
+import { userIDAtom } from "global/user-state";
+
+// API
+import { requestTokens } from "utils/auth";
+import { logout } from "api/auth";
+
+/**
+ * Container for all app screens, includes header and react router outlet.
+ */
 function Root() {
   const userId = useRecoilValue(userIDAtom);
   const navigate = useNavigate();
@@ -25,7 +31,7 @@ function Root() {
       try {
         await requestTokens();
         setLoading(false);
-      } catch (e) {
+      } catch {
         navigate("/login");
       }
     };
@@ -33,6 +39,8 @@ function Root() {
     grab();
   }, [userId, navigate]);
 
+  /* Make the outlet cover the whole screen, but leave 50 pixels on the top, which
+   which is space for the header. */
   return (
     <>
       {!loading && (

@@ -25,7 +25,7 @@ function Login() {
     const grab = async () => {
       try {
         await requestTokens();
-        navigate("/app");
+        navigate("/app/leaderboard");
       } catch {
         setLoading(false);
       }
