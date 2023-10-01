@@ -56,7 +56,7 @@ function Safety({ gameInfo }: { gameInfo: GameInfo }) {
         <Text fontWeight="extrabold">
           Today's safety ({now.getMonth() + 1}/{now.getDate()})
         </Text>
-        <Text>{today}</Text>
+        <Text textAlign="center">{today}</Text>
       </Card>
       <Card
         variant="outline"
@@ -71,7 +71,7 @@ function Safety({ gameInfo }: { gameInfo: GameInfo }) {
         <Text fontWeight="extrabold">
           Tomorrow's safety ({tmmrw.getMonth() + 1}/{tmmrw.getDate()})
         </Text>
-        <Text>{tomorrow}</Text>
+        <Text textAlign="center">{tomorrow}</Text>
       </Card>
     </Stack>
   );
