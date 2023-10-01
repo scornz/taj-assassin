@@ -24,6 +24,7 @@ import { GameModule } from './game/game.module';
       useFactory: async (config: ConfigService) => {
         return {
           uri: getConnectUrl(config), // Loaded from .ENV
+          dbName: 'db-assassin-managed',
         };
       },
     }),
