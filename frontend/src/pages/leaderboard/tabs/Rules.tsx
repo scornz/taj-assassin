@@ -126,10 +126,12 @@ function Rules() {
               killed.
               <UnorderedList fontWeight="normal">
                 <ListItem>
-                  Cottage (inside and in the courtyard), no other eating clubs
-                  are safe (nor dining halls). The exception is during nights
-                  out, from 10pm-2am, the insides of other eating clubs are
-                  safe, however the street is not.
+                  Cottage is safe inside the building and in the
+                  courtyard/backyard. The front yard of the building, prior to
+                  entering the doors, is NOT safe. .No other eating clubs are
+                  safe (nor dining halls). The exception is during nights out,
+                  from 10pm-2am, the insides of other eating clubs are safe,
+                  however the street is not.
                 </ListItem>
                 <ListItem>
                   Practice and competition (during, and preparing for), but not
