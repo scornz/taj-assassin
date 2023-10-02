@@ -141,6 +141,11 @@ function Rules() {
                   Own bedrooms, but common rooms, dorm hallways, and other's
                   bedrooms are fair game.
                 </ListItem>
+                <ListItem>
+                  Classrooms are safe ONLY during midterms/exams. More
+                  specifically, the classroom is safe while you are inside
+                  (including as you are prepping and finishing the exam).
+                </ListItem>
               </UnorderedList>
             </ListItem>
             <ListItem>
