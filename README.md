@@ -14,6 +14,11 @@
 
 > A small web app (primarily built for mobile) that facilitates the operation of a classic game of "assassin". Used at University Cottage Club (UCC) at Princeton University in F'23.
 
+<p align="center">
+  <img src="https://s6.gifyu.com/images/S6mfJ.gif" alt="Girl in a jacket" width="30%"/>
+  <img src="https://s6.gifyu.com/images/S6mfG.gif" alt="Girl in a jacket" width="30%"/>
+</p>
+
 ## Requirements
 
 - `yarn` ([download](https://classic.yarnpkg.com/lang/en/docs/install))
