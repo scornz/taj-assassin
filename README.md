@@ -15,7 +15,7 @@
 > A small web app (primarily built for mobile) that facilitates the operation of a classic game of "assassin". Used at University Cottage Club (UCC) at Princeton University in F'23.
 
 <p align="center">
-  <img src="https://s6.gifyu.com/images/S6mY6.gif" alt="Scrolling through leaderboard" width="30%"/>
+  <img src="https://s6.gifyu.com/images/S6IB9.gif" alt="Scrolling through leaderboard" width="30%"/>
   <img src="https://s6.gifyu.com/images/S6mfG.gif" alt="Static view of safeties" width="30%"/>
 </p>
 
@@ -55,8 +55,9 @@ FRONTEND_HOST=<address of the frontend, for redirections>
 ```
 
 7. Call `yarn start` from the `/backend` folder. If this opens, your backend is configured correctly.
-8. Call `yarn start` from the `/frontend` folder in order to spin up the local React app.
-9. Prosper.
+8. Ensure that the `BASE_URL` in `constants.tsx` points to `localhost`.
+9. Call `yarn start` from the `/frontend` folder in order to spin up the local React app.
+10. Prosper.
 
 ## License
 
