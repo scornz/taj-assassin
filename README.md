@@ -16,6 +16,7 @@
 
 <p align="center">
   <img src="https://s6.gifyu.com/images/S6IB9.gif" alt="Scrolling through leaderboard" width="30%"/>
+  <img src="https://s6.gifyu.com/images/S8sSB.gif" alt="Scrolling through admin portal" width="30%"/>
   <img src="https://s6.gifyu.com/images/S6mfG.gif" alt="Static view of safeties" width="30%"/>
 </p>
 
