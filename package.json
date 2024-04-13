@@ -5,12 +5,15 @@
         "backend",
         "shared"
     ],
-    "scripts": {"deploy:backend": "cd backend && yarn install && yarn run build && yarn start:prod"},
+    "scripts": {
+        "deploy:backend": "cd backend && yarn install && yarn run build && yarn start:prod"
+    },
     "name": "root",
     "version": "1.0.0",
     "description": "Root project for managing a complex game of classic assassin.",
     "main": "index.js",
     "repository": "git@github-scornz:scornz/assassin-managed.git",
     "author": "Mike Scornavacca <52425912+scornz@users.noreply.github.com>",
-    "license": "MIT"
+    "license": "MIT",
+    "packageManager": "yarn@1.22.19"
 }
